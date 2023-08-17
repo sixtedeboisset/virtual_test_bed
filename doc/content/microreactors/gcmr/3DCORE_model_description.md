@@ -33,40 +33,40 @@ A smaller number of coolant channels than the real one is used in the core. Only
 
 The heat transfer is simulated using a [HeatTransferFromExternalAppTemperature1Phase](https://mooseframework.inl.gov/source/components/HeatTransferFromExternalAppTemperature1Phase.html) heat transfer component.
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components\coolant_ht_r0_c1
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components/core/core_ht_r0_c1
 
 
 Transferred data in the sub app file are defined in the [Postprocessor](https://mooseframework.inl.gov/syntax/Postprocessors/index.html)’ blocks: the wall temperature is received from the main app and the fluid temperature and heat transfer coefficient are sent to the main app.
 
 Around the core, some pipes are added to model the inlet and outlet plena and the flow of fluid in the gap (the `upcomer`) between the vessel and the outer shield (see [thm_geometry]). This pipe is connected as those in the core to the heat conduction problem. The principle is consequently the same.
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components\upcomer_ht_outer_shield
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components/upcomer_ht_outer_shield
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components\upcomer_ht_vessel
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Components/upcomer_ht_vessel
 
 Nevertheless, this step requires to be cautious with the definition of the wall and fluid temperatures and of the heat transfer coefficient:
 
 - The fluid temperatures in the core and in the upcomer are not the same: a `T_fluid_core_var` and a `T_fluid_upcomer_var` are declared and received the values of the `T` variable (fluid temperature) in the corresponding blocks using the [CopyValueAux](https://mooseframework.inl.gov/source/auxkernels/CopyValueAux.html) [AuxKernel](https://mooseframework.inl.gov/syntax/AuxKernels/index.html)
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels\T_fluid_core_ak
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels/T_fluid_core_ak
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels\T_fluid_upcomer_ak
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels/T_fluid_upcomer_ak
 
 - The wall temperatures differ in the core, on the reflector and on the vessel boundaries. In the case of the core, the elemental variable `T_wall` is kept, but others are defined for the two upcomers boundaries: `T_wall_reflector_var` and `T_wall_vessel_var`. They received their values through the transfer from the mainapp, and are associated to the [Materials](https://mooseframework.inl.gov/syntax/Materials/index.html) properties using [ADCoupledVariableValueMaterial](https://mooseframework.inl.gov/source/materials/CoupledVariableValueMaterial.html) blocks.
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials\T_wall_vessel
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials/T_wall_vessel
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials\T_wall_reflector
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials/T_wall_reflector
 
 - The heat transfer coefficients are once again different on the core coolant, reflector and vessel boundaries. New blocks are added in the [Materials](https://mooseframework.inl.gov/syntax/Materials/index.html) to define them at the vessel and reflector boundaries. They are associated with the `Hw_vessel` and `Hw_reflector` [AuxVariables](https://mooseframework.inl.gov/source/variables/AuxVariable.html) using [ADMaterialRealAux](https://mooseframework.inl.gov/source/auxkernels/MaterialRealAux.html) `AuxKernels`.
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials\Hw_vessel
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials/Hw_vessel
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels\Hw_vessel_ak
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels/Hw_vessel_ak
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials\Hw_reflector
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=Materials/Hw_reflector
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels\Hw_reflector_ak
+!listing microreactors/gcmr/3D_core_balance_of_plant/htgr_thm_primary.i block=AuxKernels/Hw_reflector_ak
 
 All these elements are presented in [thm_geometry]. The choice of the appropriate junctions is also important. The [JunctionParallelChannels1Phase](https://mooseframework.inl.gov/source/components/JunctionParallelChannels1Phase.html) can connect more than two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with different sections but these channels must be parallel and with the same orientation. By contrast, the [JunctionOneToOne1Phase](https://mooseframework.inl.gov/source/components/JunctionOneToOne1Phase.html) can connect only two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with the same section but they do not need to be parallel. Finally, the [VolumeJunction1Phase] can connect more than two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with different orientations. It explains the choice of junctions in the model, and the fact that the `upcomer_out` pipe is added to be able to connect the `upcomer` and the `plenum_inlet` which have different sections and orientations.
 
@@ -81,7 +81,17 @@ All these elements are presented in [thm_geometry]. The choice of the appropriat
 
 The heat conduction problem is implemented using a [Kernels](https://mooseframework.inl.gov/syntax/Kernels/index.html) block which calls itself the `T` [Variable](https://mooseframework.inl.gov/syntax/Variables/index.html):
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_conduction
+
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_td
+
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_source_fuel_ring1
+
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_source_fuel_ring2
+
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_source_fuel_ring3
+
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Kernels/heat_source_fuel_ring4
 
 where the power density objects are presented below.
 
@@ -105,9 +115,9 @@ This variation in the length of the assembly is defined using the [ParsedFunctio
 
 A radial power modulation in the core is also added. It reaches a maximum value in the middle of the core and minimum ones at the boundaries. A polynomial [ParsedFunction](https://mooseframework.inl.gov/source/functions/MooseParsedFunction.html) called `density_rad_core_fn` is used to represent it. It is normalized using the `dens_rad_core_normalization` [Postprocessor] (https://mooseframework.inl.gov/syntax/Postprocessors/index.html).
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Functions/density_length_assemb_fn_auxdensity_rad_core_fn
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Functions/density_rad_core_fn
 
-!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Functions/density_length_assemb_fn_auxdensity_rad_core_fn_aux
+!listing microreactors/gcmr/3D_core_balance_of_plant/mainapp_core.i block=Functions/density_rad_core_fn_aux
 
 Finally, a time dependent power evolution is added to take into account the fact that the core does not deliver directly a 15 MWth power. A [PiecewiseLinear](https://mooseframework.inl.gov/source/functions/PiecewiseLinear.html) function is provided to define it. The thermal power increases from 0 MWth to 15 MWth during 100 s and stays then at its operating value.
 

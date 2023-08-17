@@ -20,7 +20,10 @@ The solid temperatures are consequently a bit higher for the maximum and average
 
 The core heat transfer coefficient is also a bit lower than what was got in the 1D simulation. Its evolution is plotted in [FIG–PLOT–Hw_core] and a 3D representation of the steady state is provided in [FIG–3D–Hw_core] (in this case, the colors are put on the solid surrounding the boundaries where the heat transfer coefficient is defined). This effect is due to the lowest mass flow rate, because the Dittus-Boelter correlation, which is used here, gives:
 
-[h = 0.023 lambda/Dh * Re^(4/5) * Pr^(0.4)], with [Re = (rho u Dh)/mu = 4/pi * m_dot/(Dh * mu)]
+\begin{equation}
+      h = \frac{0.023 \lambda }{D_h} R_e^{4/5} P_r^{0.4}
+\end{equation}
+
 Consequently, the lower mass flow rate got in this simulation induces a lower heat transfer coefficient. It is possible to expect this type of results, because the heat transfer is logically easier when the mass flow rate is bigger.
 
 [FIG–PLOT–Hw_core]

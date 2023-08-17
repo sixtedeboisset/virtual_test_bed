@@ -158,7 +158,6 @@ core_radius_equiv_complete_hs = '${fparse sqrt( core_section_assembly / (pi * co
 
 tot_power = 15000000 # Wth
 
-
 ##################################################################
 ###############  CORE GEOMETRICAL PARAMETERS  ####################
 ##################################################################
@@ -326,7 +325,7 @@ shaft_initial_speed = 2
 #
 # Remark: the upcomer is linked by a junction to the "upcomer_out" pipe, even if they are not exactly geometrically joined (it occurs because the upcomer must have the ame length than the core).
 
-pri_x0 = ${fparse PRI_L1 + PRI_L_upcomer + PRI_L_upcomer_out + PRI_L_plenum_inlet}
+pri_x0 = '${fparse PRI_L1 + PRI_L_upcomer + PRI_L_upcomer_out + PRI_L_plenum_inlet}'
 pri_y0 = 0.
 
 pri_x_pipe1 = ${pri_x0}
@@ -343,7 +342,7 @@ pri_x_pipe5 = '${fparse pri_x_pipe4 + PRI_L4}'
 
 pri_y_pipe1 = ${pri_y0}
 pri_y_upcomer = ${pri_y_pipe1}
-pri_y_upcomer_out = ${fparse pri_y_pipe1}
+pri_y_upcomer_out = '${fparse pri_y_pipe1}'
 pri_y_plenum_inlet = ${pri_y_upcomer_out}
 pri_y_core = ${pri_y_upcomer_out}
 pri_y_plenum_outlet = ${pri_y_upcomer_out}
@@ -564,7 +563,7 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
     Hw = Hw
   []
 
-  [Hw_refector]
+  [Hw_reflector]
     type = ADWallHeatTransferCoefficient3EqnDittusBoelterMaterial
     block = 'upcomer'
     D_h = D_h
@@ -729,7 +728,7 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
     initial_T_wall = ${T_ini}
     P_hf = ${upcomer_P_hf_in}
     T_ext = T_wall_reflector
-    #   Hw = Hw_refector
+    #   Hw = Hw_reflector
   []
   [upcomer_ht_vessel]
     type = HeatTransferFromExternalAppTemperature1Phase
@@ -961,7 +960,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
 
     []
 
-
     #####################################
     #######        RANK 12        #######
     #####################################
@@ -1049,7 +1047,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
       # var_type = elemental
 
     []
-
 
     #####################################
     #######        RANK 11         #######
@@ -1205,7 +1202,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
       # var_type = elemental
 
     []
-
 
     #####################################
     #######        RANK 9         #######
@@ -1404,7 +1400,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
 
     []
 
-
     #####################################
     #######        RANK 7         #######
     #####################################
@@ -1514,7 +1509,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
 
     []
 
-
     #####################################
     #######        RANK 6         #######
     #####################################
@@ -1602,7 +1596,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
       # var_type = elemental
 
     []
-
 
     #####################################
     #######        RANK 5         #######
@@ -1712,7 +1705,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
       # var_type = elemental
 
     []
-
 
     #####################################
     #######        RANK 4         #######
@@ -1956,7 +1948,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
       # var_type = elemental
 
     []
-
 
     #####################################
     #######        RANK 1         #######
@@ -3921,7 +3912,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
   []
 []
 
-
 ##########################
 ##########################
 ####                  ####
@@ -3991,6 +3981,6 @@ sec_y_hx = '${fparse pri_y_hx + hx_wall_thickness}'
 
     Hw_core_max Hw_core_min'
 
-        # pump_T_in pump_T_out pump_p_in pump_p_out pump_p_difference
+    # pump_T_in pump_T_out pump_p_in pump_p_out pump_p_difference
   []
 []

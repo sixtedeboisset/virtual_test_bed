@@ -14,10 +14,10 @@ upcomer_heated_n_elems = ${channel_n_elems}
 
 L_plenum_inlet = 0.2
 L_upcomer_out = 0.5
-x_core_origin = ${fparse L_plenum_inlet + L_upcomer_out}
+x_core_origin = '${fparse L_plenum_inlet + L_upcomer_out}'
 # x_upcomer_origin = ${fparse assembly_height + x_core_origin}
 
-fuel_channels_area = ${fparse section_fuel_channel * nb_assembly * nb_fuel_per_assembly}
+fuel_channels_area = '${fparse section_fuel_channel * nb_assembly * nb_fuel_per_assembly}'
 
 radius_core = 0.9
 
@@ -125,20 +125,20 @@ radius_TRISO_PyC_inner = 5.1e-4
 radius_TRISO_SiC = 5.45e-4
 radius_TRISO_PyC_outer = 5.8e-4
 
-mass_TRISO_U = ${fparse (4/3) * pi * density_TRISO_U * radius_TRISO_U * radius_TRISO_U * radius_TRISO_U}
-mass_TRISO_buffer_layer = ${fparse (4/3) * pi * density_TRISO_buffer_layer * (radius_TRISO_buffer_layer * radius_TRISO_buffer_layer * radius_TRISO_buffer_layer - radius_TRISO_U * radius_TRISO_U * radius_TRISO_U)}
-mass_TRISO_PyC_inner = ${fparse (4/3) * pi * density_TRISO_PyC * (radius_TRISO_PyC_inner * radius_TRISO_PyC_inner * radius_TRISO_PyC_inner - radius_TRISO_buffer_layer * radius_TRISO_buffer_layer * radius_TRISO_buffer_layer)}
-mass_TRISO_SiC = ${fparse (4/3) * pi * density_TRISO_SiC * (radius_TRISO_SiC * radius_TRISO_SiC * radius_TRISO_SiC - radius_TRISO_PyC_inner * radius_TRISO_PyC_inner * radius_TRISO_PyC_inner)}
-mass_TRISO_PyC_outer = ${fparse (4/3) * pi * density_TRISO_PyC * (radius_TRISO_PyC_outer * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer - radius_TRISO_SiC * radius_TRISO_SiC * radius_TRISO_SiC)}
+mass_TRISO_U = '${fparse (4/3) * pi * density_TRISO_U * radius_TRISO_U * radius_TRISO_U * radius_TRISO_U}'
+mass_TRISO_buffer_layer = '${fparse (4/3) * pi * density_TRISO_buffer_layer * (radius_TRISO_buffer_layer * radius_TRISO_buffer_layer * radius_TRISO_buffer_layer - radius_TRISO_U * radius_TRISO_U * radius_TRISO_U)}'
+mass_TRISO_PyC_inner = '${fparse (4/3) * pi * density_TRISO_PyC * (radius_TRISO_PyC_inner * radius_TRISO_PyC_inner * radius_TRISO_PyC_inner - radius_TRISO_buffer_layer * radius_TRISO_buffer_layer * radius_TRISO_buffer_layer)}'
+mass_TRISO_SiC = '${fparse (4/3) * pi * density_TRISO_SiC * (radius_TRISO_SiC * radius_TRISO_SiC * radius_TRISO_SiC - radius_TRISO_PyC_inner * radius_TRISO_PyC_inner * radius_TRISO_PyC_inner)}'
+mass_TRISO_PyC_outer = '${fparse (4/3) * pi * density_TRISO_PyC * (radius_TRISO_PyC_outer * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer - radius_TRISO_SiC * radius_TRISO_SiC * radius_TRISO_SiC)}'
 
-mass_TRISO = ${fparse mass_TRISO_U + mass_TRISO_buffer_layer + mass_TRISO_PyC_inner + mass_TRISO_SiC + mass_TRISO_PyC_outer}
+mass_TRISO = '${fparse mass_TRISO_U + mass_TRISO_buffer_layer + mass_TRISO_PyC_inner + mass_TRISO_SiC + mass_TRISO_PyC_outer}'
 
-density_TRISO = ${fparse mass_TRISO / ( (4/3) * pi * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer)} # kg/m3, homogeneous density over an entire UN TRISO particle
+density_TRISO = '${fparse mass_TRISO / ( (4/3) * pi * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer * radius_TRISO_PyC_outer)}' # kg/m3, homogeneous density over an entire UN TRISO particle
 
 density_graphite = 2260 # kg/m3
 fuel_packing_fraction = 0.5 # proportion of TRISO pqrticule in the graphite matrix in the fuel channels
 
-density_fuel = ${fparse density_TRISO * fuel_packing_fraction + ( 1 - fuel_packing_fraction) * density_graphite} # kg/m3
+density_fuel = '${fparse density_TRISO * fuel_packing_fraction + ( 1 - fuel_packing_fraction) * density_graphite}' # kg/m3
 
 density_steel = 8000 # kg/m3
 
@@ -154,7 +154,6 @@ density_steel = 8000 # kg/m3
   #####
   # 0 #   Solid materials properties
   #####
-
 
   [graphite_specific_heat_fn]
     type = PiecewiseLinear
@@ -273,8 +272,6 @@ density_steel = 8000 # kg/m3
     symbol_values = 'density_length_assemb_fn_aux density_ring4_avg_fn'
     expression = 'density_ring4_avg_fn * density_length_assemb_fn_aux'
   []
-
-
 
   #####
   # 3 #    Radial power shape function in the core: higher in the middle of the core, lower at the boundary
@@ -463,7 +460,6 @@ density_steel = 8000 # kg/m3
 []
 
 [Kernels]
-
   [heat_conduction]
     type = HeatConduction
     variable = T
@@ -534,16 +530,16 @@ density_steel = 8000 # kg/m3
 [ThermalContact]
   [gap_ht]
     type = GapHeatTransfer
-     variable = T
-     primary = reflector_boundary
-     secondary = vessel_boundary_in
-     emissivity_primary = 1
-     emissivity_secondary = 0.3
-     gap_conductivity = 0.025
-     gap_geometry_type = CYLINDER
-     quadrature = true
-     cylinder_axis_point_1 = '${x_core_origin} 0 0'
-     cylinder_axis_point_2 = '${fparse x_core_origin + assembly_height} 0 0'
+    variable = T
+    primary = reflector_boundary
+    secondary = vessel_boundary_in
+    emissivity_primary = 1
+    emissivity_secondary = 0.3
+    gap_conductivity = 0.025
+    gap_geometry_type = CYLINDER
+    quadrature = true
+    cylinder_axis_point_1 = '${x_core_origin} 0 0'
+    cylinder_axis_point_2 = '${fparse x_core_origin + assembly_height} 0 0'
   []
 []
 
