@@ -1,63 +1,32 @@
-The results of this simulation are close to those of the first 1D simulation. Consequently, most of the plots are not reported here but the steady state values are compared together:
+Some differences appear between the results of the complete core coupled with the 1D model of the primary loop and those of the 1D model of the loops. The channels going through the core can experience different conditions (particularly the power provided to each one). Thus, the mass flow rate and consequently the fluid temperature and heat transfer coefficient can differ.
 
-!table id=results_comparison_1D_3D caption= Compared results of the 1D and 3D simulations
-| Loop                     | Parameter                        | 3D simulation                | 1D simulation           | Relative gap       |
-| :----------------------- | :------------------------------- | :--------------------------- | :---------------------- | :----------------- |
-| Primary loop             | T fluid - core min (K)           |                              | 888.697558              |                    |
-|                          | T fluid - core max (K)           |                              | 1196.39737              |    |
-|                          | mass flow rate (kg/s)            |                              | 9.35722261              |    |
-|                          | p fluid - core out (MPa)         |                              | 9.004203                |    |
-|                          | Hw core (avg) W/(K.m^2^)         |                              |                |    |
-|                          | Power core (extracted) (MWth)    |                              | 15.000132               |    |
-| Secondary loop           | T fluid - comp in  (K)           |                              | 267.897738              |    |
-|                          | T fluid - comp out (K)           |                              | 419.690253              |    |
-|                          | T fluid - turb in  (K)           |                              |                         |    |
-|                          | T fluid - turb out (K)           |                              |                         |    |
-|                          | p fluid - comp in  (MPa)         |                              |                         |    |
-|                          | p fluid - comp out (MPa)         |                              |                         |    |
-|                          | p fluid - turb in  (MPa)         |                              |                         |    |
-|                          | p fluid - turb out (MPa)         |                              |                         |    |
-|                          | mass flow rate (kg/s)            |                              |                         |    |
-|                          | Power hx (extracted) (MWth)      |                              |                         |    |
-|                          | Power generator (extracted) (MWe)|                              |                         |    |
+The mass flow rate decreases from 14 kg/s to its steady state value (which is 8.5 kg/s). As shown in [FIG–PLOT-m_dot_primary], it takes approximately 400 s to reach the steady state. It is comparable in some extent with the 1D simulation. The steady state is reach after a longer time, because in that case the complete secondary loop is also considered. The coupling changes also a bit the operating values, which are lower than with the 1D simulation using a simplified core.
 
-The fluid temperature is presented in [3D_core_T_coolant] and [plot_core_T_coolant]. It increases progressively along the core, from 890 K to 1190 K at the core exit. The colors on the 3D representation are put on the solid materials but represent the temperatures in the surrounded coolant channels.
+[FIG–PLOT-m_dot_primary]
 
-!media media/gcmr/3D_core_balance_of_plant/3D_core_T_coolant.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=3D_core_T_coolant
-      caption= Fluid temperature profile in the core
+As imagined, the primary pressures shown in [FIG–PLOT-p_primary] stay close to 90 bar. This is imposed as an initial condition in the whole primary loop and during the operations by the pressurizer between the core and the heat exchanger. The secondary pressure is imposed at the heat exchanger outlet at 5.5 bar, and the pressure drop in this component is about 0.1 bar.
 
-!media media/gcmr/3D_core_balance_of_plant/plot_core_T_coolant.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=plot_core_T_coolant
-      caption= Plot of the fluid temperature in the core
+[FIG–PLOT-p_primary]
 
+The fluid temperatures are a bit higher at the core and heat exchanger (secondary side) outlets. They are plotted in [FIG–PLOT–T_fluid]. It is due to the lower mass flow rate: the provided thermal power is the same, consequently the temperature difference must be higher. The core inlet temperature stays nevertheless close to 900 K and the higher temperatures are not too far from 1200 K, which is the 1D simulation core outlet temperature. The 3D representation, given in [FIG–3D–T_fluid], shows that the fluid takes power from the core when it goes through it.
 
-The moderator and fuel temperatures are presented in [3D_core_T] and [plot_core_T].
+[FIG–PLOT–T_fluid]
+[FIG–3D–T_fluid]
 
-The maximum solid temperature stays under 1400 K, which respects the requirements. The temperature increases in the first half of the core and a maximum value is reached between the middle and the top of the core. This effect is due to the rise of the fluid temperature, which continues to increase after the middle of the core, where the power density is the highest: the fluid continues to receive power in the second half of the core.
+The solid temperatures are consequently a bit higher for the maximum and average values than in the 1D simulation, but they stay close to what was got in that case. They are plotted in [FIG–PLOT–T_solid]. A 3D representation is also provided in [FIG–3D–T_solid] which makes appear clearly that the solid temperature increases progressively in the core.
 
-!media media/gcmr/3D_core_balance_of_plant/3D_core_T.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=3D_core_T
-      caption= Moderator and fuel temperature profile in the core
+[FIG–PLOT–T_solid]
+[FIG–3D–T_solid]
 
-!media media/gcmr/3D_core_balance_of_plant/plot_core_T.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=plot_core_T
-      caption= Plot of the moderator and fuel temperature in the core
+The core heat transfer coefficient is also a bit lower than what was got in the 1D simulation. Its evolution is plotted in [FIG–PLOT–Hw_core] and a 3D representation of the steady state is provided in [FIG–3D–Hw_core] (in this case, the colors are put on the solid surrounding the boundaries where the heat transfer coefficient is defined). This effect is due to the lowest mass flow rate, because the Dittus-Boelter correlation, which is used here, gives:
 
+[h = 0.023 lambda/Dh * Re^(4/5) * Pr^(0.4)], with [Re = (rho u Dh)/mu = 4/pi * m_dot/(Dh * mu)]
+Consequently, the lower mass flow rate got in this simulation induces a lower heat transfer coefficient. It is possible to expect this type of results, because the heat transfer is logically easier when the mass flow rate is bigger.
 
+[FIG–PLOT–Hw_core]
+[FIG–3D–Hw_core]
 
-The heat transfer coefficient is almost the same everywhere in the core. It is provided in [3D_core_htc] and [plot_core_htc]. The colors on the 3D representation are put on the solid materials but represent the heat transfer coefficient with the surrounded coolant channels.
+The last step is to check the power transfer in the system, plotted in [FIG–PLOT–power]. The power transferred through the coolant channels boundaries is quickly the same than the power difference in the fluid between the upcomer inlet and core outlet. A longer transient occurs in the secondary side of the heat exchanger, but the transferred steady state power is the same.
 
-!media media/gcmr/3D_core_balance_of_plant/3D_core_htc.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=3D_core_htc
-      caption= Heat transfer coefficient profile in the core
+[FIG–PLOT–power]
 
-!media media/gcmr/3D_core_balance_of_plant/plot_core_htc.png
-      style=display: block;margin-left:auto;margin-right:auto;width:70%;
-      id=plot_core_htc
-      caption= Plot of the heat transfer coefficient in the core
