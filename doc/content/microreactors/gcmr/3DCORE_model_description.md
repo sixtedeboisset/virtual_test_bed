@@ -71,7 +71,7 @@ Nevertheless, this step requires to be cautious with the definition of the wall 
 All these elements are presented in [thm_geometry]. The choice of the appropriate junctions is also important. The [JunctionParallelChannels1Phase](https://mooseframework.inl.gov/source/components/JunctionParallelChannels1Phase.html) can connect more than two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with different sections but these channels must be parallel and with the same orientation. By contrast, the [JunctionOneToOne1Phase](https://mooseframework.inl.gov/source/components/JunctionOneToOne1Phase.html) can connect only two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with the same section but they do not need to be parallel. Finally, the [VolumeJunction1Phase] can connect more than two [FlowChannels1Phase](https://mooseframework.inl.gov/source/components/FlowChannel1Phase.html) with different orientations. It explains the choice of junctions in the model, and the fact that the `upcomer_out` pipe is added to be able to connect the `upcomer` and the `plenum_inlet` which have different sections and orientations.
 
 !media media/gcmr/3D_core_balance_of_plant/thm_geometry.png
-      style=display: block;margin-left:auto;margin-right:auto;width:25%;
+      style=display: block;margin-left:auto;margin-right:auto;width:70%;
       id=thm_geometry
       caption= Geometry of the thermalhydraulic system
 
