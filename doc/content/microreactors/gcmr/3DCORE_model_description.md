@@ -107,7 +107,12 @@ The power density is not uniform in the fuel channels and among them. Four rings
 The average power density for each fuel channel (depending on the ring) is computed and then used to get the power density.
 
 
-Moreover, the power density also varies along each fuel channel. A cosine power shape is adopted. The power density starts at the half of the average power density at the bottom of the fuel channel, increases and reaches a maximum in the middle of the fuel channel and finally decreases to reach one half of its average value at its top.
+Moreover, the power density also varies along each fuel channel. A cosine power shape is adopted. The power density starts at the half of the average power density at the bottom of the fuel channel, increases and reaches a maximum in the middle of the fuel channel and finally decreases to reach one half of its average value at its top. It is represented in [power_var_length]:
+
+!media media/gcmr/3D_core_balance_of_plant/power_var_length.png
+      style=display: block;margin-left:auto;margin-right:auto;width:40%;
+      id=power_var_length
+      caption=Ratio between the average power density and the effective power density along an assembly
 
 This variation in the length of the assembly is defined using the [ParsedFunction](https://mooseframework.inl.gov/source/functions/MooseParsedFunction.html) `density_length_assemb_fn_aux`.
 
